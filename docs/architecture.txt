@@ -1,0 +1,6 @@
+Architecture Diagram 
+=================== 
+ 
+User - - Gateway - -
+ 
+Services: S3, API Gateway, Lambda, DynamoDB, IAM 
