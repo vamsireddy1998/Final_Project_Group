@@ -1,34 +1,35 @@
-# AWS Serverless URL Shortener 
- 
-## Team: Final_project_User (Solo) 
- 
-## What It Does 
-## What It Does 
-- Stores in DynamoDB, tracks clicks 
-- Redirects short URLs to originals 
- 
-## Architecture 
-- Frontend: S3 static website 
-- API: API Gateway 
-- Compute: AWS Lambda 
-- Database: DynamoDB 
-- Security: IAM least privilege 
- 
-## API Endpoints 
-- POST /shorten - Create short URL 
-- GET /{code} - Redirect to original 
- 
-## How to Access 
-- Web: http://final-project-vvs.s3-website-us-east-1.amazonaws.com 
-- API: https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod 
- 
-## SLO Plan 
-## SLO Plan 
-- Availability: 99.5% uptime 
-- Error rate: Alert if 
-- Monitor: Lambda, API Gateway, DynamoDB metrics 
- 
-## AI Usage 
-- Lambda code templates 
-- API Gateway setup help 
-- All code reviewed for security 
+# AWS Serverless URL Shortener
+
+## Team
+- Final_project_User
+
+## What It Does
+- Shortens URLs via web interface or API
+- Stores URL mappings in DynamoDB with click tracking
+- Redirects short URLs to original destinations
+
+## Architecture
+- Frontend: S3 static website hosting
+- API: API Gateway REST endpoints
+- Compute: AWS Lambda functions (Python)
+- Database: DynamoDB NoSQL table
+- Security: IAM roles with least privilege access
+
+## API Endpoints
+- POST /shorten - Create short URL
+- GET /{short_code} - Redirect to original URL
+
+## How to Access
+- Web Interface: http://final-project-vvs.s3-website-us-east-1.amazonaws.com
+- API Base URL: https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod
+
+## SLO & Monitoring Plan
+- Latency: p95 API response time < 500ms
+- Availability: 99.5% uptime for redirect functionality
+- Error Rate: Alert if error rate > 2% over 5-minute window
+- Monitoring: CloudWatch metrics for Lambda invocations, duration, errors
+
+## AI Usage
+- Lambda function code templates generated with AI assistance
+- API Gateway setup commands provided by AI
+- All code reviewed for security and AWS best practices
