@@ -1,6 +1,38 @@
-Architecture Diagram 
-=================== 
- 
-User - - Gateway - -
- 
-Services: S3, API Gateway, Lambda, DynamoDB, IAM 
+# AWS Serverless URL Shortener - Architecture Diagram
+
+## Components:
+1. **Frontend**: Amazon S3 Static Website
+   - Hosts: index.html, error.html
+   - URL: http://final-project-vvs.s3-website-us-east-1.amazonaws.com
+
+2. **API Layer**: Amazon API Gateway
+   - REST API with CORS enabled
+   - Endpoints:
+     * POST /shorten → Lambda ShortenFunction
+     * GET /{short_code} → Lambda RedirectFunction
+   - URL: https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod
+
+3. **Compute**: AWS Lambda Functions
+   - ShortenFunction (create_url.py): Creates short URLs
+   - RedirectFunction (redirect_url.py): Redirects to original URLs
+   - Runtime: Python 3.9
+
+4. **Database**: Amazon DynamoDB
+   - Table: UrlMappings
+   - Primary Key: short_code (String)
+   - Attributes: original_url, created_at, click_count
+
+5. **Security**: AWS IAM
+   - Lambda execution roles with least privilege
+   - S3 bucket policy for public website access
+
+## Data Flow:
+User → S3 Website → API Gateway → Lambda → DynamoDB
+         ↑                                   ↓
+User ← Redirect ← API Gateway ← Lambda ←─────┘
+
+## Security:
+- HTTPS enforced for API
+- CORS configured for S3 → API Gateway
+- IAM roles with minimal permissions
+- No secrets in code (environment variables)
