@@ -10,7 +10,7 @@ This is a URL shortener built on AWS. Users can shorten long URLs and use short 
 1. User clicks short link → API Gateway → Lambda → Looks up in DynamoDB → 302 redirect
 
 ## 2) Architecture
-![Diagram](docs/architecture-diagram.png)
+![Architecture Diagram](architecture-diagram.png)
 
 **Components:**
 - Frontend: S3 static website
