@@ -1,35 +1,84 @@
 # AWS Serverless URL Shortener
 
-## Team
-- Final_project_User
+## 1) What It Does (User Flow)
+This is a URL shortener built on AWS. Users can shorten long URLs and use short links to redirect to originals.
 
-## What It Does
-- Shortens URLs via web interface or API
-- Stores URL mappings in DynamoDB with click tracking
-- Redirects short URLs to original destinations
+**Write Path (Create Short URL):**
+1. User submits URL → API Gateway → Lambda → DynamoDB → Returns short code
 
-## Architecture
-- Frontend: S3 static website hosting
-- API: API Gateway REST endpoints
-- Compute: AWS Lambda functions (Python)
-- Database: DynamoDB NoSQL table
-- Security: IAM roles with least privilege access
+**Read Path (Redirect):**
+1. User clicks short link → API Gateway → Lambda → Looks up in DynamoDB → 302 redirect
 
-## API Endpoints
-- POST /shorten - Create short URL
-- GET /{short_code} - Redirect to original URL
+## 2) Architecture
+![Diagram](docs/architecture-diagram.png)
 
-## How to Access
-- Web Interface: http://final-project-vvs.s3-website-us-east-1.amazonaws.com
-- API Base URL: https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod
+**Components:**
+- Frontend: S3 static website
+- API: API Gateway
+- Compute: AWS Lambda (Python)
+- Database: DynamoDB
+- IaC: AWS SAM template
 
-## SLO & Monitoring Plan
-- Latency: p95 API response time < 500ms
-- Availability: 99.5% uptime for redirect functionality
-- Error Rate: Alert if error rate > 2% over 5-minute window
-- Monitoring: CloudWatch metrics for Lambda invocations, duration, errors
+**Security:**
+- Least-privilege IAM roles
+- No hardcoded secrets (env variables only)
 
-## AI Usage
-- Lambda function code templates generated with AI assistance
-- API Gateway setup commands provided by AI
-- All code reviewed for security and AWS best practices
+## 3) API Endpoints
+
+**Shorten URL:**
+```bash
+curl -X POST https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod/shorten \
+  -H "Content-Type: application/json" \
+  -d '{"long_url":"https://example.com"}'
+Response:
+
+json
+{"short_code":"abc123","short_url":"https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod/abc123"}
+Redirect:
+
+bash
+curl -I https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod/abc123
+4) SLO & Monitoring Plan
+p95 latency < 300ms
+
+Error rate < 1%
+
+Availability > 99%
+
+Monitor: Lambda errors, API Gateway 4xx/5xx, DynamoDB latency
+
+5) How to Deploy
+bash
+git clone https://github.com/vamsireddy1998/Final_Project_Group
+cd Final_Project_Group
+sam build
+sam deploy --guided
+Access:
+
+Web: http://final-project-vvs.s3-website-us-east-1.amazonaws.com
+
+API: https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod
+
+6) Team & Roles
+3 Members:
+
+Name1: AWS Infrastructure
+
+Name2: Lambda & Database
+
+Name3: Frontend & Docs
+
+7) AI Usage
+Tools: ChatGPT-4, GitHub Copilot
+
+Prompt: "Generate Python Lambda for URL shortener with DynamoDB"
+
+Human Changes: Added security, validation, monitoring, and error handling.
+
+Features Implemented:
+
+Infrastructure as Code (AWS SAM)
+
+Monitoring plan
+
+Security best practices
