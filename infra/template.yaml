@@ -1,0 +1,125 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Serverless URL Shortener - Final Project
+
+Resources:
+  # DynamoDB Table for URL mappings
+  UrlTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: final-project-user-urls
+      AttributeDefinitions:
+        - AttributeName: short_code
+          AttributeType: S
+      KeySchema:
+        - AttributeName: short_code
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      TimeToLiveSpecification:
+        AttributeName: expires_at
+        Enabled: true
+      SSESpecification:
+        SSEEnabled: true
+
+  # S3 Bucket for static website hosting
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "final-project-website-${AWS::AccountId}"
+      WebsiteConfiguration:
+        IndexDocument: index.html
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+
+  WebsiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref WebsiteBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: '*'
+            Action: s3:GetObject
+            Resource: !Sub "${WebsiteBucket.Arn}/*"
+
+  # Lambda Function: Create Short URL
+  CreateUrlFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: app/backend/
+      Handler: create_url.lambda_handler
+      Runtime: python3.9
+      Timeout: 10
+      MemorySize: 128
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref UrlTable
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:PutItem
+              Resource: !GetAtt UrlTable.Arn
+        - CloudWatchPutMetricPolicy: {}
+      Events:
+        CreateApi:
+          Type: Api
+          Properties:
+            Path: /shorten
+            Method: post
+            RestApiId: !Ref ServerlessRestApi
+
+  # Lambda Function: Redirect Short URL
+  RedirectUrlFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: app/backend/
+      Handler: redirect_url.lambda_handler
+      Runtime: python3.9
+      Timeout: 10
+      MemorySize: 128
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref UrlTable
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:UpdateItem
+              Resource: !GetAtt UrlTable.Arn
+      Events:
+        RedirectApi:
+          Type: Api
+          Properties:
+            Path: /{code}
+            Method: get
+            RestApiId: !Ref ServerlessRestApi
+
+  # API Gateway
+  ServerlessRestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors:
+        AllowMethods: "'GET,POST,OPTIONS'"
+        AllowHeaders: "'Content-Type'"
+        AllowOrigin: "'*'"
+        MaxAge: "'600'"
+
+Outputs:
+  ApiEndpoint:
+    Description: "API Gateway endpoint URL for testing"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  WebsiteURL:
+    Description: "Static website URL"
+    Value: !GetAtt WebsiteBucket.WebsiteURL
+  DynamoDBTable:
+    Description: "DynamoDB Table Name for URL mappings"
+    Value: !Ref UrlTable
