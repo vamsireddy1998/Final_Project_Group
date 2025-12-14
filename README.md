@@ -14,8 +14,6 @@ User clicks short link → API Gateway → Lambda → Looks up URL in DynamoDB �
 2) Architecture
 
 
-Or resize if needed:
-
 <img src="docs/architecture-diagram.png" alt="Architecture Diagram" width="600"/>
 
 
