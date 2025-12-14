@@ -91,7 +91,7 @@ Web Frontend: http://final-project-vvs.s3-website-us-east-1.amazonaws.com
 API: https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod
 
 6) Team & Roles
-7) 
+   
 Konduri Vamsi Reddy:	AWS Infrastructure
 
 Vineeth Gongati:	Lambda & Database
@@ -99,13 +99,13 @@ Vineeth Gongati:	Lambda & Database
 Sudarshan Challa:	Frontend & Documentation
 
 
-8) AI Usage
+7) AI Usage
 
 Tools: ChatGPT-4, GitHub Copilot
 
 Prompt Example: "Generate Python Lambda for URL shortener with DynamoDB"
 
-Human Modifications:
+8) Human Modifications:
 
 Added security measures
 
@@ -127,12 +127,3 @@ CloudWatch monitoring and alarms
 
 IAM roles with least privilege
 
-8) Screenshots / Evidence (Optional)
-
-Include any of the following as needed for submission:
-
-CloudWatch Logs: Lambda invocations and errors
-
-curl outputs: Show POST response and GET redirect
-
-Browser redirect screenshots: Demonstrate redirection to the original URL
