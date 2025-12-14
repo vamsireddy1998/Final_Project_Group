@@ -1,10 +1,15 @@
-<!DOCTYPE html> 
-<html> 
-<head> 
-<title>Error</title> 
-</head> 
-<body> 
-<h1>Page Not Found</h1> 
-<a href="/">Go Home</a> 
-</body> 
-</html> 
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>URL Shortener</h1>
+    <p>Enter a URL to shorten:</p>
+    <input id="url" placeholder="https://example.com">
+    <button onclick="shorten()">Shorten</button>
+    <script>
+        function shorten() {
+            const url = document.getElementById('url').value;
+            window.location.href = `/index.html?url=${encodeURIComponent(url)}`;
+        }
+    </script>
+</body>
+</html>
