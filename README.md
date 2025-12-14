@@ -92,11 +92,10 @@ API: https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod
 
 6) Team & Roles
 Team Member	Role
-Name1	AWS Infrastructure
-Name2	Lambda & Database
-Name3	Frontend & Documentation
+Konduri Vamsi Reddy:	AWS Infrastructure
+Vineeth Gongati:	Lambda & Database
+Sudarshan Challa:	Frontend & Documentation
 
-Replace Name1, Name2, Name3 with actual team member names.
 
 7) AI Usage
 
@@ -135,5 +134,3 @@ CloudWatch Logs: Lambda invocations and errors
 curl outputs: Show POST response and GET redirect
 
 Browser redirect screenshots: Demonstrate redirection to the original URL
-
-✅ Team names placeholders ready
