@@ -91,7 +91,7 @@ Web Frontend: http://final-project-vvs.s3-website-us-east-1.amazonaws.com
 API: https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod
 
 6) Team & Roles
-Team Member	Role
+7) 
 Konduri Vamsi Reddy:	AWS Infrastructure
 
 Vineeth Gongati:	Lambda & Database
