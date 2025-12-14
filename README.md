@@ -1,79 +1,91 @@
-# AWS Serverless URL Shortener
+AWS Serverless URL Shortener
+1) What It Does (User Flow)
 
-## 1) What It Does (User Flow)
-This is a URL shortener built on AWS. Users can shorten long URLs and use short links to redirect to originals.
+This is a URL shortener built on AWS. Users can shorten long URLs and use short links to redirect to the original URLs.
 
-**Write Path (Create Short URL):**
-1. User submits URL → API Gateway → Lambda → DynamoDB → Returns short code
+Write Path (Create Short URL):
 
-**Read Path (Redirect):**
-1. User clicks short link → API Gateway → Lambda → Looks up in DynamoDB → 302 redirect
+User submits URL → API Gateway → Lambda → DynamoDB → Returns short code
 
----
+Read Path (Redirect):
 
-## 2) Architecture
-![Diagram](docs/architecture-diagram.png)
+User clicks short link → API Gateway → Lambda → Looks up URL in DynamoDB → 302 redirect
 
-**Components:**
-- Frontend: S3 static website
-- API: API Gateway
-- Compute: AWS Lambda (Python)
-- Database: DynamoDB
-- IaC: AWS SAM template
+2) Architecture
 
-**Security:**
-- Least-privilege IAM roles
-- No hardcoded secrets (environment variables only)
 
----
+Or resize if needed:
 
-## 3) API Endpoints
+<img src="docs/architecture-diagram.png" alt="Architecture Diagram" width="600"/>
 
-**Shorten URL (POST):**
-```bash
+
+Components:
+
+Frontend: S3 static website
+
+API: API Gateway
+
+Compute: AWS Lambda (Python)
+
+Database: DynamoDB
+
+IaC: AWS SAM template
+
+Security:
+
+Least-privilege IAM roles
+
+No hardcoded secrets (environment variables only)
+
+3) API Endpoints
+
+Shorten URL (POST):
+
 curl -X POST https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod/shorten \
   -H "Content-Type: application/json" \
   -d '{"long_url":"https://example.com"}'
-Response:
 
-json
-Copy code
+
+Example Response:
+
 {
   "short_code": "abc123",
   "short_url": "https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod/abc123",
   "original_url": "https://example.com"
 }
+
+
 Redirect (GET):
 
-bash
-Copy code
 curl -I https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod/abc123
+
 4) SLO & Monitoring Plan
-p95 latency < 300ms
 
-Error rate < 1%
+p95 latency: < 300ms
 
-Availability > 99%
+Error rate: < 1%
+
+Availability: > 99%
 
 Monitored Metrics:
 
 Lambda errors
 
-API Gateway 4xx/5xx errors
+API Gateway 4xx/5xx
 
 DynamoDB read/write latency
 
 Request rates
 
-Refer to the detailed monitoring plan in monitoring_plan.md.
+Refer to monitoring_plan.md for detailed monitoring instructions.
 
 5) How to Deploy
-bash
-Copy code
 git clone https://github.com/vamsireddy1998/Final_Project_Group
 cd Final_Project_Group
 sam build
 sam deploy --guided
+
+
 Access URLs:
 
 Web Frontend: http://final-project-vvs.s3-website-us-east-1.amazonaws.com
@@ -86,13 +98,13 @@ Name1	AWS Infrastructure
 Name2	Lambda & Database
 Name3	Frontend & Documentation
 
-(Replace Name1, Name2, Name3 with actual team members.)
+Replace Name1, Name2, Name3 with actual team member names.
 
 7) AI Usage
+
 Tools: ChatGPT-4, GitHub Copilot
 
-Prompt Example:
-"Generate Python Lambda for URL shortener with DynamoDB"
+Prompt Example: "Generate Python Lambda for URL shortener with DynamoDB"
 
 Human Modifications:
 
@@ -116,12 +128,17 @@ CloudWatch monitoring and alarms
 
 IAM roles with least privilege
 
-less
-Copy code
+8) Screenshots / Evidence (Optional)
 
-This version:  
-✅ Fixes all code block formatting  
-✅ Organizes sections consistently  
-✅ Leaves placeholders for team names and architecture diagram  
+Include any of the following as needed for submission:
 
-If you want, I can also **add a tiny “screenshot instructions” section** so your C
+CloudWatch Logs: Lambda invocations and errors
+
+curl outputs: Show POST response and GET redirect
+
+Browser redirect screenshots: Demonstrate redirection to the original URL
+
+✅ All sections included
+✅ Properly formatted code blocks
+✅ Architecture diagram placeholder ready
+✅ Team names placeholders ready
