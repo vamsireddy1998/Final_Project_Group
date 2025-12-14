@@ -93,11 +93,13 @@ API: https://th1omwipo7.execute-api.us-east-1.amazonaws.com/prod
 6) Team & Roles
 Team Member	Role
 Konduri Vamsi Reddy:	AWS Infrastructure
+
 Vineeth Gongati:	Lambda & Database
+
 Sudarshan Challa:	Frontend & Documentation
 
 
-7) AI Usage
+8) AI Usage
 
 Tools: ChatGPT-4, GitHub Copilot
 
